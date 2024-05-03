@@ -9,7 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MyWorld extends World
 {
     public static int score = 0;
-
+    private SimpleTimer timer = new SimpleTimer();
+    private Counter timeCount = new Counter();
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -17,8 +18,10 @@ public class MyWorld extends World
     public MyWorld()
     {    
         // Create a new world with 600x600 cells with a cell size of 1x1 pixels.
-        super(600, 600, 1);
+        super(600, 650, 1);
         this.score=0;
+        addObject(timeCount, 300, 25);
+        timeCount.setValue(60);
         prepare();
     }
     
@@ -29,7 +32,15 @@ public class MyWorld extends World
             addObject(new Home(),575,25);
         }
         
+        if (timer.millisElapsed() > 1000) {
+            timeCount.add(-1);
+            timer.mark();
+        }
    
+        if (timeCount.getValue() == 0) {
+            showText("Je hebt verloren" , 400, 25);
+            Greenfoot.stop();
+        }
     }
     /**
      * Prepare the world for the start of the program.
@@ -37,8 +48,8 @@ public class MyWorld extends World
      */
 
     private void prepare()
-    { 
-        int y = 25;
+    {   
+        int y = 75;
         int x = 25;        
         int[][] maze = 
             {
@@ -73,7 +84,7 @@ public class MyWorld extends World
             y= y+50;
         }
 
-        addObject(new Person(),25,575);
+        addObject(new Person(),25,625);
 
     }
   

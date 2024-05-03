@@ -29,7 +29,7 @@ public class Person extends Actor
         }
     }
     public boolean hitWall(){
-       if(isTouching(Wall.class)){
+       if(isTouching(Wall.class)) {
            return true;
        }
        else{
@@ -40,7 +40,8 @@ public class Person extends Actor
        Actor apple = getOneIntersectingObject(Enemy.class);
        if(apple != null){
            getWorld().removeObject(apple);
-           MyWorld.score--;
+           World w= new MyWorld();
+           Greenfoot.setWorld(w);
         }
        
     }
@@ -55,7 +56,7 @@ public class Person extends Actor
     public boolean hitEdge(){
         int getX = getX();
         int getY = getY();
-        if(getX <= 10|| getX >=590|| getY <= 15|| getY >= 585  ){
+        if(getX <= 10|| getX >=590|| getY <= 15|| getY >= 635  ){
             return true;
         }
         else{
@@ -77,17 +78,34 @@ public class Person extends Actor
         }
         if(Greenfoot.isKeyDown("down")){
             setLocation(getX(), getY()+1);
-            
-            
+            if(hitWall() == true || hitEdge() == true) {
+                setLocation(getX(),getY()-2);
+            }
+            if(hitHome() == true) {
+                World level2 = new FishWorld();
+                Greenfoot.setWorld(level2);
+            }
         }
         if(Greenfoot.isKeyDown("right")){
             setLocation(getX()+1, getY());
-            
-            
+            if(hitWall() == true || hitEdge() == true) {
+                setLocation(getX()-2,getY());
+            }
+            if(hitHome() == true) {
+                World level2 = new FishWorld();
+                Greenfoot.setWorld(level2);
+            }            
         }
         if(Greenfoot.isKeyDown("left")){
             setLocation(getX()-1, getY());
-            
+            if(hitWall() == true || hitEdge() == true) {
+                setLocation(getX()+2,getY());
+            }
+            if(hitHome() == true) {
+                World level2 = new FishWorld();
+                Greenfoot.setWorld(level2);
+            }
         }
+
     }
 }
